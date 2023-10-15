@@ -1,9 +1,10 @@
-class TicTacToe {
-    constructor() {
+var TicTacToe = /** @class */ (function () {
+    function TicTacToe() {
+        var _this = this;
         this.blockWinner = document.getElementById('blockWinner');
-        this.step = "";
+        this.step = '';
         this.spanWho = document.getElementById('spanWho');
-        this.winner = "";
+        this.winner = '';
         this.win = [
             [0, 1, 2],
             [0, 4, 8],
@@ -18,97 +19,95 @@ class TicTacToe {
         this.counter = 0;
         this.spanWin = document.getElementById('spanWin');
         this.btnNewGame = document.getElementById('btnNewGame');
-        this.btnNewGame.addEventListener('click', () => {
-            this.resetGame();
-        });
-
+        if (this.btnNewGame) {
+            this.btnNewGame.addEventListener('click', function () {
+                _this.resetGame();
+            });
+        }
         this.who();
         this.addClickHandlers();
     }
-
-    who() {
+    TicTacToe.prototype.who = function () {
         if (this.step === 'circle') {
             this.step = 'krest';
-            this.spanWho.innerText = 'Хрестики';
-        } else {
-            this.step = 'circle';
-            this.spanWho.innerText = 'Нулики';
+            if (this.spanWho) {
+                this.spanWho.innerText = 'Хрестики';
+            }
         }
-    }
-
-    addClickHandlers() {
-        this.blockItem.forEach((item) => {
-            item.addEventListener('click', () => {
-                this.handleItemClick(item);
+        else {
+            this.step = 'circle';
+            if (this.spanWho) {
+                this.spanWho.innerText = 'Нулики';
+            }
+        }
+    };
+    TicTacToe.prototype.addClickHandlers = function () {
+        var _this = this;
+        this.blockItem.forEach(function (item) {
+            item.addEventListener('click', function () {
+                _this.handleItemClick(item);
             });
         });
-    }
-
-    handleItemClick(item) {
+    };
+    TicTacToe.prototype.handleItemClick = function (item) {
         if (!item.classList.contains('circle') && !item.classList.contains('krest')) {
             item.classList.add(this.step);
-            item.innerText = this.step === 'krest' ? "X" : "0";
+            item.innerText = this.step === 'krest' ? 'X' : '0';
             this.counter++;
             this.who();
             if (this.circleWin() || this.krestWin() || this.noWin()) {
                 this.endGame(this.winner);
             }
         }
-    }
-
-    circleWin() {
-        for (let i = 0; i < this.win.length; i++) {
-            if (
-                this.blockItem[this.win[i][0]].classList.contains('circle') &&
+    };
+    TicTacToe.prototype.circleWin = function () {
+        for (var i = 0; i < this.win.length; i++) {
+            if (this.blockItem[this.win[i][0]].classList.contains('circle') &&
                 this.blockItem[this.win[i][1]].classList.contains('circle') &&
-                this.blockItem[this.win[i][2]].classList.contains('circle')
-            ) {
-                this.setWinnerAndEndGame("Нулики");
+                this.blockItem[this.win[i][2]].classList.contains('circle')) {
+                this.setWinnerAndEndGame('Нулики');
                 return true;
             }
         }
         return false;
-    }
-
-    krestWin() {
-        for (let i = 0; i < this.win.length; i++) {
-            if (
-                this.blockItem[this.win[i][0]].classList.contains('krest') &&
+    };
+    TicTacToe.prototype.krestWin = function () {
+        for (var i = 0; i < this.win.length; i++) {
+            if (this.blockItem[this.win[i][0]].classList.contains('krest') &&
                 this.blockItem[this.win[i][1]].classList.contains('krest') &&
-                this.blockItem[this.win[i][2]].classList.contains('krest')
-            ) {
-                this.setWinnerAndEndGame("Хрестики");
+                this.blockItem[this.win[i][2]].classList.contains('krest')) {
+                this.setWinnerAndEndGame('Хрестики');
                 return true;
             }
         }
         return false;
-    }
-
-    noWin() {
+    };
+    TicTacToe.prototype.noWin = function () {
         if (!this.krestWin() && !this.circleWin() && this.counter >= 9) {
-            this.setWinnerAndEndGame("Нічия");
+            this.setWinnerAndEndGame('Нічия');
             return true;
         }
         return false;
-    }
-
-    setWinnerAndEndGame(winner) {
-        this.blockItem.forEach((item) => {
+    };
+    TicTacToe.prototype.setWinnerAndEndGame = function (winner) {
+        this.blockItem.forEach(function (item) {
             item.classList.add('winColor');
         });
         this.winner = winner;
         this.endGame(this.winner);
-    }
-
-    endGame(winner) {
-        blockArea.style.pointerEvents = 'none';
-        this.blockWinner.style.display = 'flex';
-        this.spanWin.innerText = winner;
-    }
-
-    resetGame() {
+    };
+    TicTacToe.prototype.endGame = function (winner) {
+        if (this.blockWinner) {
+            this.blockWinner.style.pointerEvents = 'none';
+            this.blockWinner.style.display = 'flex';
+        }
+        if (this.spanWin) {
+            this.spanWin.innerText = winner;
+        }
+    };
+    TicTacToe.prototype.resetGame = function () {
         document.location.reload();
-    }
-}
-
-const game = new TicTacToe();
+    };
+    return TicTacToe;
+}());
+var game = new TicTacToe();
