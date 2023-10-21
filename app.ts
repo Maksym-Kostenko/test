@@ -134,4 +134,3 @@ class TicTacToe {
 }
 
 const game = new TicTacToe();
-
