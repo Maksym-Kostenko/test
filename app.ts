@@ -1,4 +1,31 @@
+// Class representing a player in the game.
+class Player {
+    constructor(public name: string) {}
+}
+// Class for managing the game scoreboard.
+class Scoreboard {
+    private player1Wins: number;
+    private player2Wins: number;
+    // Constructor of the class, initializes the player1Wins and player2Wins variables.
+    constructor() {
+        this.player1Wins = 0;
+        this.player2Wins = 0;
+    }
 
+    public updateScore(winner: string): void {
+        if (winner === 'Хрестики') {
+            this.player1Wins++;
+        } else if (winner === 'Нулики') {
+            this.player2Wins++;
+        }
+        this.displayScore();
+    }
+
+    private displayScore(): void {
+        console.log(`Хрестики: ${this.player1Wins} | Нулики: ${this.player2Wins}`);
+    }
+}
+// Class responsible for the logic of the Tic-Tac-Toe game.
 class TicTacToe {
     private blockWinner: HTMLElement | null;
     private step: string;
@@ -9,6 +36,7 @@ class TicTacToe {
     private counter: number;
     private spanWin: HTMLElement | null;
     private btnNewGame: HTMLElement | null;
+    private scoreboard: Scoreboard;
 
     constructor() {
         this.blockWinner = document.getElementById('blockWinner');
@@ -29,6 +57,7 @@ class TicTacToe {
         this.counter = 0;
         this.spanWin = document.getElementById('spanWin');
         this.btnNewGame = document.getElementById('btnNewGame');
+        this.scoreboard = new Scoreboard();
 
         if (this.btnNewGame) {
             this.btnNewGame.addEventListener('click', () => {
@@ -111,6 +140,7 @@ class TicTacToe {
     }
 
     private setWinnerAndEndGame(winner: string): void {
+        this.scoreboard.updateScore(winner);
         this.blockItem.forEach((item) => {
             item.classList.add('winColor');
         });

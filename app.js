@@ -1,3 +1,28 @@
+var Player = /** @class */ (function () {
+    function Player(name) {
+        this.name = name;
+    }
+    return Player;
+}());
+var Scoreboard = /** @class */ (function () {
+    function Scoreboard() {
+        this.player1Wins = 0;
+        this.player2Wins = 0;
+    }
+    Scoreboard.prototype.updateScore = function (winner) {
+        if (winner === 'Хрестики') {
+            this.player1Wins++;
+        }
+        else if (winner === 'Нулики') {
+            this.player2Wins++;
+        }
+        this.displayScore();
+    };
+    Scoreboard.prototype.displayScore = function () {
+        console.log("\u0425\u0440\u0435\u0441\u0442\u0438\u043A\u0438: ".concat(this.player1Wins, " | \u041D\u0443\u043B\u0438\u043A\u0438: ").concat(this.player2Wins));
+    };
+    return Scoreboard;
+}());
 var TicTacToe = /** @class */ (function () {
     function TicTacToe() {
         var _this = this;
@@ -19,6 +44,7 @@ var TicTacToe = /** @class */ (function () {
         this.counter = 0;
         this.spanWin = document.getElementById('spanWin');
         this.btnNewGame = document.getElementById('btnNewGame');
+        this.scoreboard = new Scoreboard();
         if (this.btnNewGame) {
             this.btnNewGame.addEventListener('click', function () {
                 _this.resetGame();
@@ -90,6 +116,7 @@ var TicTacToe = /** @class */ (function () {
         return false;
     };
     TicTacToe.prototype.setWinnerAndEndGame = function (winner) {
+        this.scoreboard.updateScore(winner);
         this.blockItem.forEach(function (item) {
             item.classList.add('winColor');
         });
